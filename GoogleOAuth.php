@@ -29,14 +29,10 @@ abstract class GoogleOAuth {
 	private $oauth_url = "https://accounts.google.com/o/oauth2/";
 
 	//init
-	protected static function init() {
+	protected function init() {
 		$config = Config::getParams('oauth');
 		$this->client_id = $config['client_id'];
 		$this->client_secret = $config['client_secret'];
 		$this->callback_url = $config['callback_url'];
 	}
-
-	//get scope url
-	abstract protected function getScopeUrl();
-
 }

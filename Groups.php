@@ -5,39 +5,42 @@
 * Groups class
 */
 
-class Groups extends GoogleOAuth implements AuthRequests, RESTInterface {
+class Groups extends Request {
 
+	//return scope url for methods
 	private function getScopeUrl() {
 		return "https://www.googleapis.com/admin/directory/v1/groups/";
 	}
 
 	/*
-	for get requests
+	Retrieves a group's properties
 	*/
-	public function getRequest();
+	public function get();
 
 	/*
-	for insert requests
+	Creates a group
 	*/
-	public function insertRequest();
+	public function insert();
 
 	/*
-	for delete requests
+	Deletes a group
 	*/
-	public function deleteRequest();
+	public function delete();
 
 	/*
-	for list requests
+	Retrieves a paginated list of groups in a domain.
 	*/
-	public function listRequest();
+	public function list();
 
 	/*
-	for patch rqeuests
+	Updates a group's properties. 
+	This method supports patch semantics.
 	*/
 	public function patch();
 
 	/*
-	for update requests
+	Updates a group
 	*/
 	public function update();
+
 }
