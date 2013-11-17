@@ -7,42 +7,53 @@
 
 class Request extends GoogleOAuth {
 
-	private $googleAuth;
+	//GoogleOAuth object
+	private $googleOAuth;
 
-	public function __construct(GoogleOAuth $googleAuth) {
-		return $this->googleAuth = $googleAuth;
+	//constructor
+	public function __construct(GoogleOAuth $googleOAuth) {
+		$this->googleOAuth = $googleOAuth;
 	}
 
 	/*
 	get scope url
 	*/
-	public function getScopeUrl();
+	protected function getScopeUrl() {
+		return $this->googleOAuth->getScopeUrl();
+	}
+
+	/*
+	return api url
+	*/
+	protected function getApiUrl() {
+		return $this->googleOAuth->getApiUrl();
+	}
 
 	/*
 	GET requests by CURL
 	*/
-	protected function getCURL($method, $params) {
-		return $this->googleAuth->getCURL($method, $params);
+	protected function getRequest($method, $params) {
+		return $this->googleOAuth->getCURL($method, $params);
 	}
 
 	/*
 	POST requests by CURL
 	*/
-	protected function postCURL($method, $params) {
-		return $this->googleAuth->postCURL($method, $params);
+	protected function postRequest($method, $params) {
+		return $this->googleOAuth->postCURL($method, $params);
 	}
 
 	/*
 	DELETE requests by CURL
 	*/
-	protected function deleteCURL($method, $params) {
-		return $this->googleAuth->deleteCURL($method, $params);
+	protected function deleteRequest($method, $params) {
+		return $this->googleOAuth->deleteCURL($method, $params);
 	}
 
 	/*
 	PUT requests by CURL
 	*/
-	protected function putCURL($method, $params) {
-		return $this->googleAuth->deleteCURL($method, $params);
+	protected function putRequest($method, $params) {
+		return $this->googleOAuth->putCURL($method, $params);
 	}
 }

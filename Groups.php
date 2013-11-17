@@ -7,9 +7,12 @@
 
 class Groups extends Request {
 
-	//return scope url for methods
-	private function getScopeUrl() {
-		return "https://www.googleapis.com/admin/directory/v1/groups/";
+	/*
+	constructor
+	*/
+	public function __construct() {
+		$this->setApiUrl('https://www.googleapis.com/admin/directory/v1/groups');
+		$this->setScopeUrl('https://www.googleapis.com/auth/admin.directory.group');
 	}
 
 	/*
