@@ -1,8 +1,30 @@
 <?php
 
 /**
-* @author zhzhussupovkz@gmail.com
 * class MyGoogleAdmin
+* 
+* @author zhzhussupovkz@gmail.com
+* 
+* The MIT License (MIT)
+*
+* Copyright (c) 2013 Zhussupov Zhassulan zhzhussupovkz@gmail.com
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy of
+* this software and associated documentation files (the "Software"), to deal in
+* the Software without restriction, including without limitation the rights to
+* use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+* the Software, and to permit persons to whom the Software is furnished to do so,
+* subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+* FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+* COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+* IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 class MyGoogleAdmin {
@@ -59,7 +81,7 @@ class MyGoogleAdmin {
 	}
 
 	//get token type: bearer
-	public function get_bearer_token() {
+	private function get_bearer_token() {
 		if (isset($_GET['code'])) {
 			$code = $_GET['code'];
 
@@ -308,6 +330,90 @@ class MyGoogleAdmin {
 	*/
 	public function update_group($groupKey, $params = array()) {
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey", $params);
+	}
+
+	/*
+	********************* USERS ALIASES ****************
+	*/
+
+	/*
+	Adds an alias
+	*/
+	public function users_aliases_insert($userKey, $alias) {
+		$params = array('alias' => $alias);
+		return $this->post_auth(array('user.alias'), "users/$userKey/aliases", $params);
+	}
+
+	/*
+	Removes an alias
+	*/
+	public function users_aliases_delete($userKey, $alias) {
+		return $this->custom_auth("DELETE", array('user.alias'), "users/$userKey/aliases/$alias");
+	}
+
+	/*
+	Lists all aliases for a user
+	*/
+	public function users_aliases_list($userKey) {
+		return $this->get_auth(array('user.alias'), "users/$userKey/aliases");
+	}
+
+	/*
+	********************** USERS PHOTOS METHODS *************************8
+	*/
+
+	/*
+	Retrieves the user's photo
+	*/
+	public function users_photos_get($userKey) {
+		return $this->get_auth(array('user'), "users/$userKey/photos/thumbnail");
+	}
+
+	/*
+	Removes the user's photo
+	*/
+	public function users_photos_delete($userKey) {
+		return $this->custom_auth("DELETE", array('user'), "users/$userKey/photos/thumbnail");
+	}
+
+	/*
+	Adds a photo for the user. This method supports patch semantics
+	*/
+	public function users_photos_patch($userKey) {
+		return $this->custom_auth("PATCH", array('user'), "users/$userKey/photos/thumbnail");
+	}
+
+	/*
+	Adds a photo for the user
+	*/
+	public function users_photos_update($userKey, $params = array()) {
+		return $this->custom_auth("PUT", array('user'), "users/$userKey/photos/thumbnail", $params);
+	}
+
+	/*
+	********************** GROUPS ALIASES METHODS ****************8
+	*/
+
+	/*
+	Lists all aliases for a group
+	*/
+	public function group_aliases_list($groupKey) {
+		return $this->get_auth(array('group.alias'), "groups/$groupKey/aliases");
+	}
+
+	/*
+	Adds an alias for the group
+	*/
+	public function group_aliases_insert($groupKey, $alias) {
+		$params = array('alias' => $alias);
+		return $this->post_auth(array('group.alias'), "groups/$groupKey/aliases", $params);
+	}
+
+	/*
+	Removes an alias for the group
+	*/
+	public function group_aliases_delete($groupKey, $alias) {
+		return $this->custom_auth("DELETE", array('group.alias'), "groups/$groupKey/aliases/$alias");
 	}
 
 }
