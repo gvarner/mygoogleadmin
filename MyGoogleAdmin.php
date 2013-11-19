@@ -416,4 +416,51 @@ class MyGoogleAdmin {
 		return $this->custom_auth("DELETE", array('group.alias'), "groups/$groupKey/aliases/$alias");
 	}
 
+	/*
+	************************** MEMBERS METHODS *******************
+	*/
+
+	/*
+	Retrieves a group member's properties
+	*/
+	public function members_get($groupKey, $memberKey) {
+		return $this->get_auth(array('group'), "groups/$groupKey/members/$memberKey");
+	}
+
+	/*
+	Removes a member from a group
+	*/
+	public function members_delete($groupKey, $memberKey) {
+		return $this->custom_auth("DELETE", array('group'), "groups/$groupKey/members/$memberKey");
+	}
+
+	/*
+	Adds a user to the specified group
+	*/
+	public function members_insert($groupKey, $params = array()) {
+		return $this->post_auth(array('group'), "groups/$groupKey/members", $params);
+	}
+
+	/*
+	Retrieves a paginated list of all members in a group
+	*/
+	public function members_list($groupKey, $params = array()) {
+		return $this->get_auth(array('group'), "groups/$groupKey/members", $params);
+	}
+
+	/*
+	Updates the membership properties of a user in the 
+	specified group. This method supports patch semantics
+	*/
+	public function members_patch($groupKey, $memberKey, $params = array()) {
+		return $this->custom_auth("PATCH", array('group'), "groups/$groupKey/members/$memberKey", $params);
+	}
+
+	/*
+	Updates the membership of a user in the specified group
+	*/
+	public function members_update($groupKey, $memberKey, $params = array()) {
+		return $this->custom_auth("PUT", array('group'), "groups/$groupKey/members/$memberKey", $params);
+	}
+
 }
