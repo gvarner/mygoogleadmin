@@ -22,11 +22,10 @@ class Config {
 }
 
 //configurate
-$params = array(
+$oauth = array(
 	'client_id' => 'YOUR CLIENT ID',
 	'client_secret' => 'YOUR CLIENT SECRET',
-	'callback_url' => 'YOUR APP CALLBACK URL',
-	'api_key' => 'YOUR API KEY',
+	'redirect_url' => 'YOUR APP REDIRECT URL',
 	);
 
-Config::setParams('oauth', $params);
+Config::setParams('oauth', $oauth);
