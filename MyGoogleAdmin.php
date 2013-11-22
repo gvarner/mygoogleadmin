@@ -53,15 +53,15 @@ class MyGoogleAdmin {
 	}
 
 	//init
-	/*public static function init() {
+	public static function init() {
 		if(empty(self::$instance)) {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}*/
+	}
 
 	//get code
-	public function get_code($scopes) {
+	private function get_code($scopes) {
 		$all_scopes = array();
 		foreach ($scopes as $k => $v) {
 			$all_scopes[] = $this->scope_url.'.'.$v;
@@ -81,7 +81,7 @@ class MyGoogleAdmin {
 	}
 
 	//get token type: bearer
-	public function get_bearer_token() {
+	private function get_bearer_token() {
 		if (isset($_GET['code'])) {
 			$code = $_GET['code'];
 
@@ -121,7 +121,7 @@ class MyGoogleAdmin {
 	}
 
 	//authorization get request
-	public function get_auth($scope, $query, $params = array()) {
+	private function get_auth($scope, $query, $params = array()) {
 		$bearer_token = $this->get_bearer_token($scope);
 
 		$header = array(
