@@ -48,17 +48,17 @@ class MyGoogleAdmin {
 	private $scope_url = 'https://www.googleapis.com/auth/admin.directory';
 
 	//constructor
-	private function __construct() {
+	public function __construct() {
 		$this->oauth_params = Config::getParams('oauth');
 	}
 
 	//init
-	public static function init() {
+	/*public static function init() {
 		if(empty(self::$instance)) {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	}
+	}*/
 
 	//get code
 	public function get_code($scopes) {
@@ -81,7 +81,7 @@ class MyGoogleAdmin {
 	}
 
 	//get token type: bearer
-	private function get_bearer_token() {
+	public function get_bearer_token() {
 		if (isset($_GET['code'])) {
 			$code = $_GET['code'];
 
@@ -121,7 +121,7 @@ class MyGoogleAdmin {
 	}
 
 	//authorization get request
-	private function get_auth($scope, $query, $params = array()) {
+	public function get_auth($scope, $query, $params = array()) {
 		$bearer_token = $this->get_bearer_token($scope);
 
 		$header = array(
@@ -463,4 +463,53 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey/members/$memberKey", $params);
 	}
 
+	/*
+	****************************** ASPS METHODS **************************
+	*/
+
+	/*
+	List the ASPs issued by a user
+	*/
+	public function asps_list($userKey) {
+		return $this->get_auth(array('user.security'), "users/$userKey/asps");
+	}
+
+	/*
+	Get information about an ASP issued by a user
+	*/
+	public function asps_get($userKey, $codeId) {
+		return $this->get_auth(array('user.security'), "users/$userKey/asps/$codeId");
+	}
+
+	/*
+	Delete an ASP issued by a user
+	*/
+	public function asps_delete($userKey, $codeId) {
+		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/asps/$codeId");
+	}
+
+	/*
+	******************************* TOKENS METHODS ************************
+	*/
+
+	/*
+	Returns the set of current, valid verification codes for the specified user
+	*/
+	public function tokens_list($userKey) {
+		return $this->get_auth(array('user.security'), "users/$userKey/tokens");
+	}
+
+	/*
+	Get information about an access token issued by a user
+	*/
+	public function tokens_get($userKey, $clientId) {
+		return $this->get_auth(array('user.security'), "users/$userKey/tokens/$clientId");
+	}
+
+	/*
+	Delete all access tokens issued by a user for an application
+	*/
+	public function tokens_get($userKey, $clientId) {
+		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/tokens/$clientId");
+	}
 }

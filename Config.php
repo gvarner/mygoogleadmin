@@ -25,7 +25,7 @@ class Config {
 $oauth = array(
 	'client_id' => 'YOUR CLIENT ID',
 	'client_secret' => 'YOUR CLIENT SECRET',
-	'redirect_url' => 'YOUR APP REDIRECT URL',
+	'redirect_uri' => 'YOUR APP REDIRECT URL',
 	);
 
 Config::setParams('oauth', $oauth);
