@@ -211,6 +211,7 @@ class MyGoogleAdmin {
 		return $result;
 	}
 
+
 	/*
 	***************** USER METHODS *********************
 	*/
@@ -332,6 +333,7 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey", $params);
 	}
 
+
 	/*
 	********************* USERS ALIASES ****************
 	*/
@@ -357,6 +359,7 @@ class MyGoogleAdmin {
 	public function users_aliases_list($userKey) {
 		return $this->get_auth(array('user.alias'), "users/$userKey/aliases");
 	}
+
 
 	/*
 	********************** USERS PHOTOS METHODS *************************8
@@ -390,6 +393,7 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('user'), "users/$userKey/photos/thumbnail", $params);
 	}
 
+
 	/*
 	********************** GROUPS ALIASES METHODS ****************8
 	*/
@@ -415,6 +419,7 @@ class MyGoogleAdmin {
 	public function group_aliases_delete($groupKey, $alias) {
 		return $this->custom_auth("DELETE", array('group.alias'), "groups/$groupKey/aliases/$alias");
 	}
+
 
 	/*
 	************************** MEMBERS METHODS *******************
@@ -463,6 +468,7 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey/members/$memberKey", $params);
 	}
 
+
 	/*
 	****************************** ASPS METHODS **************************
 	*/
@@ -487,6 +493,7 @@ class MyGoogleAdmin {
 	public function asps_delete($userKey, $codeId) {
 		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/asps/$codeId");
 	}
+
 
 	/*
 	******************************* TOKENS METHODS ************************
@@ -554,6 +561,7 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('notifications'), "customer/$customerId/notifications/notificationId", $params);
 	}
 
+
 	/*
 	********************************** ORGUNITS METHODS ************************
 	*/
@@ -604,6 +612,7 @@ class MyGoogleAdmin {
 		return $this->custom_auth("PUT", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
 	}
 
+
 	/*
 	****************************** CHROMEOS DEVICES METHODS ******************
 	*/
@@ -636,5 +645,40 @@ class MyGoogleAdmin {
 	*/
 	public function chromeos_update($customerId, $deviceId, $params = array()) {
 		return $this->custom_auth("PUT", array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
+	}
+
+
+	/*
+	***************************** MOBILE DEVIVES METHODS *********************
+	*/
+
+	/*
+	Retrieves a mobile device's properties
+	*/
+	public function mobiledevice_get($customerId, $deviceId, $params = array()) {
+		return $this->get_auth(array('device.mobile'), "customer/$customerId/devices/mobile/$deviceId", $params);
+	}
+
+	/*
+	Retrieves a paginated list of all mobile devices for an account
+	*/
+	public function mobiledevice_list($customerId, $params = array()) {
+		return $this->get_auth(array('device.mobile'), "customer/$customerId/devices/mobile", $params);
+	}
+
+	/*
+	Removes a mobile device
+	*/
+	public function mobiledevice_delete($customerId, $resourceId) {
+		return $this->custom_auth("DELETE", array('device.mobile'), "customer/$customerId/devices/mobile/$resourceId");
+	}
+
+	/*
+	Takes an action that affects a mobile device.
+	For example, remotely wiping a device
+	*/
+	public function mobiledevices_action($customerId, $resourceId, $action) {
+		$params = array('action' => $action);
+		return $this->post_auth(array('device.mobile'), "customer/$customerId/devices/mobile/$resourceId", $params);
 	}
 }
