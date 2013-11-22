@@ -512,4 +512,95 @@ class MyGoogleAdmin {
 	public function tokens_get($userKey, $clientId) {
 		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/tokens/$clientId");
 	}
+
+
+	/*
+	****************************** NOTIFICATIONS METHODS *********************
+	*/
+
+	/*
+	Retrieves a list of notifications
+	*/
+	public function notifications_list($customerId) {
+		return $this->get_auth(array('notifications'), "customer/$customerId/notifications");
+	}
+
+	/*
+	Retrieves a notification
+	*/
+	public function notifications_get($customerId, $notificationId) {
+		return $this->get_auth(array('notifications'), "customer/$customerId/notifications/notificationId");
+	}
+
+	/*
+	Deletes a notification
+	*/
+	public function notifications_delete($customerId, $notificationId) {
+		return $this->custom_auth("DELETE", array('notifications'), "customer/$customerId/notifications/notificationId");
+	}
+
+	/*
+	Updates a notification. This method supports patch semantics
+	*/
+	public function notifications_patch($customerId, $notificationId) {
+		return $this->custom_auth("PATCH", array('notifications'), "customer/$customerId/notifications/notificationId");
+	}
+
+	/*
+	Updates a notification
+	*/
+	public function notifications_update($customerId, $notificationId, $isUnread) {
+		$params = array('isUnread' => $isUnread);
+		return $this->custom_auth("PUT", array('notifications'), "customer/$customerId/notifications/notificationId", $params);
+	}
+
+	/*
+	********************************** ORGUNITS METHODS ************************
+	*/
+
+	/*
+	Retrieves a list of all organization units for an account
+	*/
+	public function orgunits_list($customerId, $params = array()) {
+		return $this->get_auth(array('orgunit'), "customer/$customerId/orgunits", $params);
+	}
+
+	/*
+	Retrieves an organization unit
+	*/
+	public function orgunits_get($customerId, $orgUnitPath) {
+		return $this->get_auth(array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
+	}
+
+	/*
+	Adds an organization unit
+	*/
+	public function orgunits_insert($customerId, $name, $parentOrgUnitPath, $params = array()) {
+		$required = array('name' => $name, 'parentOrgUnitPath' => $parentOrgUnitPath);
+		$params = array_merge($required, $params);
+		return $this->post_auth(array('orgunit'), "customer/$customerId/orgunits", $params);
+	}
+
+	/*
+	Removes an organization unit
+	*/
+	public function orgunits_delete($customerId, $orgUnitPath) {
+		return $this->custom_auth("DELETE", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
+	}
+
+	/*
+	Updates an organization unit. 
+	This method supports patch semantics. 
+	Updates an organization unit. This method supports patch semantics
+	*/
+	public function orgunits_patch($customerId, $orgUnitPath, $params = array()) {
+		return $this->custom_auth("PATCH", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath", $params);
+	}
+
+	/*
+	Updates an organization unit
+	*/
+	public function orgunits_update($customerId, $orgUnitPath) {
+		return $this->custom_auth("PUT", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
+	}
 }
