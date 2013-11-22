@@ -603,4 +603,38 @@ class MyGoogleAdmin {
 	public function orgunits_update($customerId, $orgUnitPath) {
 		return $this->custom_auth("PUT", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
 	}
+
+	/*
+	****************************** CHROMEOS DEVICES METHODS ******************
+	*/
+
+	/*
+	Retrieves a Chrome OS device's properties
+	*/
+	public function chromeos_get($customerId, $deviceId, $params = array()) {
+		return $this->get_auth(array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
+	}
+
+	/*
+	Retrieves a paginated list of Chrome OS devices within an account
+	*/
+	public function chromeos_list($customerId, $params = array()) {
+		return $this->get_auth(array('device.chromeos'), "customer/$customerId/devices/chromeos", $params);
+	}
+
+	/*
+	Updates a device's annotatedUser, 
+	annotatedLocation, or notes properties. 
+	This method supports patch semantics
+	*/
+	public function chromeos_patch($customerId, $deviceId, $params = array()) {
+		return $this->custom_auth("PATCH", array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
+	}
+
+	/*
+	Updates a device's annotatedUser, annotatedLocation, or notes properties
+	*/
+	public function chromeos_update($customerId, $deviceId, $params = array()) {
+		return $this->custom_auth("PUT", array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
+	}
 }
