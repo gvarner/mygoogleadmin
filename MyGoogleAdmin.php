@@ -114,8 +114,12 @@ class MyGoogleAdmin {
 				);
 			curl_setopt_array($ch, $options);
 			$response = curl_exec($ch);
+			if ($response == false)
+				throw new Exception('Error: '.curl_error($ch));
 			curl_close($ch);
 			$result = json_decode($response);
+			if (!$result)
+				throw new Exception('Server response invalid data type');
 			return $result->access_token;
 		}
 	}
@@ -125,10 +129,10 @@ class MyGoogleAdmin {
 		$bearer_token = $this->get_bearer_token($scope);
 
 		$header = array(
-				'GET '.$this->url.'/'.$query.' HTTP/1.1',
-				'Host: googleapis.com',
-				'Authorization: Bearer '.$bearer_token,
-			);
+			'GET '.$this->url.'/'.$query.' HTTP/1.1',
+			'Host: googleapis.com',
+			'Authorization: Bearer '.$bearer_token,
+		);
 
 		if (!empty($params))
 			$params = '?'.http_build_query($params);
@@ -144,8 +148,12 @@ class MyGoogleAdmin {
 			);
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);
+		if ($response == false)
+			throw new Exception('Error: '.curl_error($ch));
 		curl_close($ch);
 		$result = json_decode($response);
+		if (!$result)
+			throw new Exception('Server response invalid data type');
 		return $result;
 	}
 
@@ -172,8 +180,12 @@ class MyGoogleAdmin {
 			);
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);
+		if ($response == false)
+			throw new Exception('Error: '.curl_error($ch));
 		curl_close($ch);
 		$result = json_decode($response);
+		if (!$result)
+			throw new Exception('Server response invalid data type');
 		return $result;
 	}
 
@@ -206,6 +218,8 @@ class MyGoogleAdmin {
 			);
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);
+		if ($response == false)
+			throw new Exception('Error: '.curl_error($ch));
 		curl_close($ch);
 		$result = json_decode($response);
 		return $result;
