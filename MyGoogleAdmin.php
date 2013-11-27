@@ -233,14 +233,18 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a user
 	*/
-	public function get_user($userKey) {
+	public function get_user($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user'), "users/$userKey");
 	}
 
 	/*
 	Creates a user
 	*/
-	public function insert_user($familyName, $givenName, $password, $primaryEmail, $params = array()) {
+	public function insert_user($familyName = null, $givenName = null, $password = null, $primaryEmail = null, $params = array()) {
+		if (!$familyName || !$givenName)
+			throw new Exception("Missing required params");
 		$required = array(
 			'name' => array(
 				'familyName' => $familyName,
@@ -249,6 +253,10 @@ class MyGoogleAdmin {
 			'password' => $password,
 			'primaryEmail' => $primaryEmail,
 		);
+		foreach ($required as $k => $v) {
+			if (!array_key_exists($k, $required))
+				throw new Exception("Missing required params");
+		}
 		$params = array_merge($required, $params);
 		return $this->post_auth(array('user'), "users", $params);
 	}
@@ -256,7 +264,9 @@ class MyGoogleAdmin {
 	/*
 	Deletes a user
 	*/
-	public function delete_user($userKey) {
+	public function delete_user($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user'), "users/$userKey");
 	}
 
@@ -272,28 +282,36 @@ class MyGoogleAdmin {
 	Updates a user. 
 	This method supports patch semantics.
 	*/
-	public function patch_user($userKey) {
+	public function patch_user($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('user'), "users/$userKey");
 	}
 
 	/*
 	Updates a user
 	*/
-	public function update_user($userKey, $params = array()) {
+	public function update_user($userKey = null, $params = array()) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->post_auth("PUT",array('user'), "users/$userKey", $params);
 	}
 
 	/*
 	Undeletes a deleted user.
 	*/
-	public function undelete_user($userKey) {
+	public function undelete_user($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->post_auth(array('user'), "users/$userKey/undelete");
 	}
 
 	/*
 	Makes a user a super administrator
 	*/
-	public function make_admin_user($userKey) {
+	public function make_admin_user($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->post_auth(array('user'), "users/$userKey/makeAdmin");
 	}
 
@@ -305,14 +323,18 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a group's properties
 	*/
-	public function get_group($groupKey) {
+	public function get_group($groupKey = null) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('group'), "groups/$groupKey");
 	}
 
 	/*
 	Creates a group
 	*/
-	public function insert_group($email, $params = array()) {
+	public function insert_group($email = null, $params = array()) {
+		if (!$email)
+			throw new Exception("Missing required params");
 		$required = array('email' => $email);
 		$params = array_merge($required, $params);
 		return $this->post_auth(array('group'), "groups", $params);
@@ -321,7 +343,9 @@ class MyGoogleAdmin {
 	/*
 	Deletes a group
 	*/
-	public function delete_group($groupKey) {
+	public function delete_group($groupKey = null) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('group'), "groups/$groupKey");
 	}
 
@@ -336,14 +360,18 @@ class MyGoogleAdmin {
 	Updates a group's properties. 
 	This method supports patch semantics.
 	*/
-	public function patch_group($groupKey) {
+	public function patch_group($groupKey = null) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('group'), "groups/$groupKey");
 	}
 
 	/*
 	Updates a group
 	*/
-	public function update_group($groupKey, $params = array()) {
+	public function update_group($groupKey = null, $params = array()) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey", $params);
 	}
 
@@ -355,7 +383,9 @@ class MyGoogleAdmin {
 	/*
 	Adds an alias
 	*/
-	public function users_aliases_insert($userKey, $alias) {
+	public function users_aliases_insert($userKey = null, $alias = null) {
+		if (!$groupKey || !$alias)
+			throw new Exception("Missing required params");
 		$params = array('alias' => $alias);
 		return $this->post_auth(array('user.alias'), "users/$userKey/aliases", $params);
 	}
@@ -363,14 +393,18 @@ class MyGoogleAdmin {
 	/*
 	Removes an alias
 	*/
-	public function users_aliases_delete($userKey, $alias) {
+	public function users_aliases_delete($userKey = null, $alias = null) {
+		if (!$groupKey || !$alias)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user.alias'), "users/$userKey/aliases/$alias");
 	}
 
 	/*
 	Lists all aliases for a user
 	*/
-	public function users_aliases_list($userKey) {
+	public function users_aliases_list($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user.alias'), "users/$userKey/aliases");
 	}
 
@@ -382,28 +416,36 @@ class MyGoogleAdmin {
 	/*
 	Retrieves the user's photo
 	*/
-	public function users_photos_get($userKey) {
+	public function users_photos_get($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user'), "users/$userKey/photos/thumbnail");
 	}
 
 	/*
 	Removes the user's photo
 	*/
-	public function users_photos_delete($userKey) {
+	public function users_photos_delete($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user'), "users/$userKey/photos/thumbnail");
 	}
 
 	/*
 	Adds a photo for the user. This method supports patch semantics
 	*/
-	public function users_photos_patch($userKey) {
+	public function users_photos_patch($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('user'), "users/$userKey/photos/thumbnail");
 	}
 
 	/*
 	Adds a photo for the user
 	*/
-	public function users_photos_update($userKey, $params = array()) {
+	public function users_photos_update($userKey = null, $params = array()) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PUT", array('user'), "users/$userKey/photos/thumbnail", $params);
 	}
 
@@ -415,14 +457,18 @@ class MyGoogleAdmin {
 	/*
 	Lists all aliases for a group
 	*/
-	public function group_aliases_list($groupKey) {
+	public function group_aliases_list($groupKey = null) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('group.alias'), "groups/$groupKey/aliases");
 	}
 
 	/*
 	Adds an alias for the group
 	*/
-	public function group_aliases_insert($groupKey, $alias) {
+	public function group_aliases_insert($groupKey = null, $alias = null) {
+		if (!$groupKey || !$alias)
+			throw new Exception("Missing required params");
 		$params = array('alias' => $alias);
 		return $this->post_auth(array('group.alias'), "groups/$groupKey/aliases", $params);
 	}
@@ -430,7 +476,9 @@ class MyGoogleAdmin {
 	/*
 	Removes an alias for the group
 	*/
-	public function group_aliases_delete($groupKey, $alias) {
+	public function group_aliases_delete($groupKey = null, $alias = null) {
+		if (!$groupKey || !$alias)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('group.alias'), "groups/$groupKey/aliases/$alias");
 	}
 
@@ -442,28 +490,36 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a group member's properties
 	*/
-	public function members_get($groupKey, $memberKey) {
+	public function members_get($groupKey = null, $memberKey = null) {
+		if (!$groupKey || !$memberKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('group'), "groups/$groupKey/members/$memberKey");
 	}
 
 	/*
 	Removes a member from a group
 	*/
-	public function members_delete($groupKey, $memberKey) {
+	public function members_delete($groupKey = null, $memberKey = null) {
+		if (!$groupKey || !$memberKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('group'), "groups/$groupKey/members/$memberKey");
 	}
 
 	/*
 	Adds a user to the specified group
 	*/
-	public function members_insert($groupKey, $params = array()) {
+	public function members_insert($groupKey = null, $params = array()) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->post_auth(array('group'), "groups/$groupKey/members", $params);
 	}
 
 	/*
 	Retrieves a paginated list of all members in a group
 	*/
-	public function members_list($groupKey, $params = array()) {
+	public function members_list($groupKey = null, $params = array()) {
+		if (!$groupKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('group'), "groups/$groupKey/members", $params);
 	}
 
@@ -471,14 +527,18 @@ class MyGoogleAdmin {
 	Updates the membership properties of a user in the 
 	specified group. This method supports patch semantics
 	*/
-	public function members_patch($groupKey, $memberKey, $params = array()) {
+	public function members_patch($groupKey = null, $memberKey = null, $params = array()) {
+		if (!$groupKey || !$memberKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('group'), "groups/$groupKey/members/$memberKey", $params);
 	}
 
 	/*
 	Updates the membership of a user in the specified group
 	*/
-	public function members_update($groupKey, $memberKey, $params = array()) {
+	public function members_update($groupKey = null, $memberKey = null, $params = array()) {
+		if (!$groupKey || !$memberKey)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PUT", array('group'), "groups/$groupKey/members/$memberKey", $params);
 	}
 
@@ -490,21 +550,27 @@ class MyGoogleAdmin {
 	/*
 	List the ASPs issued by a user
 	*/
-	public function asps_list($userKey) {
+	public function asps_list($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user.security'), "users/$userKey/asps");
 	}
 
 	/*
 	Get information about an ASP issued by a user
 	*/
-	public function asps_get($userKey, $codeId) {
+	public function asps_get($userKey = null, $codeId = null) {
+		if (!$userKey || !$codeId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user.security'), "users/$userKey/asps/$codeId");
 	}
 
 	/*
 	Delete an ASP issued by a user
 	*/
-	public function asps_delete($userKey, $codeId) {
+	public function asps_delete($userKey = null, $codeId = null) {
+		if (!$userKey || !$codeId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/asps/$codeId");
 	}
 
@@ -516,21 +582,27 @@ class MyGoogleAdmin {
 	/*
 	Returns the set of current, valid verification codes for the specified user
 	*/
-	public function tokens_list($userKey) {
+	public function tokens_list($userKey = null) {
+		if (!$userKey)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user.security'), "users/$userKey/tokens");
 	}
 
 	/*
 	Get information about an access token issued by a user
 	*/
-	public function tokens_get($userKey, $clientId) {
+	public function tokens_get($userKey = null, $clientId = null) {
+		if (!$userKey || !$clientId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('user.security'), "users/$userKey/tokens/$clientId");
 	}
 
 	/*
 	Delete all access tokens issued by a user for an application
 	*/
-	public function tokens_get($userKey, $clientId) {
+	public function tokens_get($userKey = null, $clientId = null) {
+		if (!$userKey || !$clientId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/tokens/$clientId");
 	}
 
@@ -542,35 +614,45 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a list of notifications
 	*/
-	public function notifications_list($customerId) {
+	public function notifications_list($customerId = null) {
+		if (!$customerId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('notifications'), "customer/$customerId/notifications");
 	}
 
 	/*
 	Retrieves a notification
 	*/
-	public function notifications_get($customerId, $notificationId) {
+	public function notifications_get($customerId = null, $notificationId = null) {
+		if (!$customerId || !$notificationId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('notifications'), "customer/$customerId/notifications/notificationId");
 	}
 
 	/*
 	Deletes a notification
 	*/
-	public function notifications_delete($customerId, $notificationId) {
+	public function notifications_delete($customerId = null, $notificationId = null) {
+		if (!$customerId || !$notificationId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('notifications'), "customer/$customerId/notifications/notificationId");
 	}
 
 	/*
 	Updates a notification. This method supports patch semantics
 	*/
-	public function notifications_patch($customerId, $notificationId) {
+	public function notifications_patch($customerId = null, $notificationId = null) {
+		if (!$customerId || !$notificationId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('notifications'), "customer/$customerId/notifications/notificationId");
 	}
 
 	/*
 	Updates a notification
 	*/
-	public function notifications_update($customerId, $notificationId, $isUnread) {
+	public function notifications_update($customerId = null, $notificationId = null, $isUnread = false) {
+		if (!$customerId || !$notificationId || ($isUnread == false))
+			throw new Exception("Missing required params");
 		$params = array('isUnread' => $isUnread);
 		return $this->custom_auth("PUT", array('notifications'), "customer/$customerId/notifications/notificationId", $params);
 	}
@@ -583,21 +665,27 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a list of all organization units for an account
 	*/
-	public function orgunits_list($customerId, $params = array()) {
+	public function orgunits_list($customerId = null, $params = array()) {
+		if (!$customerId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('orgunit'), "customer/$customerId/orgunits", $params);
 	}
 
 	/*
 	Retrieves an organization unit
 	*/
-	public function orgunits_get($customerId, $orgUnitPath) {
+	public function orgunits_get($customerId = null, $orgUnitPath = null) {
+		if (!$customerId || !$orgUnitPath)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
 	}
 
 	/*
 	Adds an organization unit
 	*/
-	public function orgunits_insert($customerId, $name, $parentOrgUnitPath, $params = array()) {
+	public function orgunits_insert($customerId = null, $name = null, $parentOrgUnitPath = null, $params = array()) {
+		if (!$customerId || !$name || !$parentOrgUnitPath)
+			throw new Exception("Missing required params");
 		$required = array('name' => $name, 'parentOrgUnitPath' => $parentOrgUnitPath);
 		$params = array_merge($required, $params);
 		return $this->post_auth(array('orgunit'), "customer/$customerId/orgunits", $params);
@@ -606,7 +694,9 @@ class MyGoogleAdmin {
 	/*
 	Removes an organization unit
 	*/
-	public function orgunits_delete($customerId, $orgUnitPath) {
+	public function orgunits_delete($customerId = null, $orgUnitPath = null) {
+		if (!$customerId || !$orgUnitPath)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
 	}
 
@@ -615,14 +705,18 @@ class MyGoogleAdmin {
 	This method supports patch semantics. 
 	Updates an organization unit. This method supports patch semantics
 	*/
-	public function orgunits_patch($customerId, $orgUnitPath, $params = array()) {
+	public function orgunits_patch($customerId = null, $orgUnitPath = null, $params = array()) {
+		if (!$customerId || !$orgUnitPath)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath", $params);
 	}
 
 	/*
 	Updates an organization unit
 	*/
-	public function orgunits_update($customerId, $orgUnitPath) {
+	public function orgunits_update($customerId = null, $orgUnitPath = null) {
+		if (!$customerId || !$orgUnitPath)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PUT", array('orgunit'), "customer/$customerId/orgunits/$orgUnitPath");
 	}
 
@@ -634,14 +728,18 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a Chrome OS device's properties
 	*/
-	public function chromeos_get($customerId, $deviceId, $params = array()) {
+	public function chromeos_get($customerId = null, $deviceId = null, $params = array()) {
+		if (!$customerId || !$deviceId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
 	}
 
 	/*
 	Retrieves a paginated list of Chrome OS devices within an account
 	*/
-	public function chromeos_list($customerId, $params = array()) {
+	public function chromeos_list($customerId = null, $params = array()) {
+		if (!$customerId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('device.chromeos'), "customer/$customerId/devices/chromeos", $params);
 	}
 
@@ -650,14 +748,18 @@ class MyGoogleAdmin {
 	annotatedLocation, or notes properties. 
 	This method supports patch semantics
 	*/
-	public function chromeos_patch($customerId, $deviceId, $params = array()) {
+	public function chromeos_patch($customerId = null, $deviceId = null, $params = array()) {
+		if (!$customerId || !$deviceId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PATCH", array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
 	}
 
 	/*
 	Updates a device's annotatedUser, annotatedLocation, or notes properties
 	*/
-	public function chromeos_update($customerId, $deviceId, $params = array()) {
+	public function chromeos_update($customerId = null, $deviceId = null, $params = array()) {
+		if (!$customerId || !$deviceId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("PUT", array('device.chromeos'), "customer/$customerId/devices/chromeos/$deviceId", $params);
 	}
 
@@ -669,21 +771,27 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a mobile device's properties
 	*/
-	public function mobiledevice_get($customerId, $deviceId, $params = array()) {
+	public function mobiledevice_get(($customerId = null, $deviceId = null, $params = array()) {
+		if (!$customerId || !$deviceId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('device.mobile'), "customer/$customerId/devices/mobile/$deviceId", $params);
 	}
 
 	/*
 	Retrieves a paginated list of all mobile devices for an account
 	*/
-	public function mobiledevice_list($customerId, $params = array()) {
+	public function mobiledevice_list($customerId = null, $params = array()) {
+		if (!$customerId)
+			throw new Exception("Missing required params");
 		return $this->get_auth(array('device.mobile'), "customer/$customerId/devices/mobile", $params);
 	}
 
 	/*
 	Removes a mobile device
 	*/
-	public function mobiledevice_delete($customerId, $resourceId) {
+	public function mobiledevice_delete($customerId = null, $resourceId = null) {
+		if (!$customerId || !$resourceId)
+			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('device.mobile'), "customer/$customerId/devices/mobile/$resourceId");
 	}
 
@@ -691,7 +799,9 @@ class MyGoogleAdmin {
 	Takes an action that affects a mobile device.
 	For example, remotely wiping a device
 	*/
-	public function mobiledevices_action($customerId, $resourceId, $action) {
+	public function mobiledevices_action($customerId = null, $resourceId = null, $action = null) {
+		if (!$customerId || !$resourceId || !$action)
+			throw new Exception("Missing required params");
 		$params = array('action' => $action);
 		return $this->post_auth(array('device.mobile'), "customer/$customerId/devices/mobile/$resourceId", $params);
 	}
