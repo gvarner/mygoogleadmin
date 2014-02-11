@@ -7,7 +7,7 @@
 * 
 * The MIT License (MIT)
 *
-* Copyright (c) 2013 Zhussupov Zhassulan zhzhussupovkz@gmail.com
+* Copyright (c) 2014 Zhussupov Zhassulan zhzhussupovkz@gmail.com
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy of
 * this software and associated documentation files (the "Software"), to deal in
@@ -600,7 +600,7 @@ class MyGoogleAdmin {
 	/*
 	Delete all access tokens issued by a user for an application
 	*/
-	public function tokens_get($userKey = null, $clientId = null) {
+	public function tokens_delete($userKey = null, $clientId = null) {
 		if (!$userKey || !$clientId)
 			throw new Exception("Missing required params");
 		return $this->custom_auth("DELETE", array('user.security'), "users/$userKey/tokens/$clientId");
@@ -771,7 +771,7 @@ class MyGoogleAdmin {
 	/*
 	Retrieves a mobile device's properties
 	*/
-	public function mobiledevice_get(($customerId = null, $deviceId = null, $params = array()) {
+	public function mobiledevice_get($customerId = null, $deviceId = null, $params = array()) {
 		if (!$customerId || !$deviceId)
 			throw new Exception("Missing required params");
 		return $this->get_auth(array('device.mobile'), "customer/$customerId/devices/mobile/$deviceId", $params);
